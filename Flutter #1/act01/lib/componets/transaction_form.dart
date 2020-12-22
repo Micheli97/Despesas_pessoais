@@ -11,6 +11,17 @@ class TransactionForm extends StatelessWidget {
   TransactionForm(this.onSubmit);
   // Aqui eu estou recebendo uma função do componente pai atravez do construtor
 
+  _submitForm (){
+    final title = titleController.text;
+    final value = double.tryParse(valueController.text) ?? 0.0;
+
+    if (title.isEmpty || value <= 0){
+      return;
+    }
+
+    onSubmit(title, value);
+  }
+  
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -27,6 +38,9 @@ class TransactionForm extends StatelessWidget {
             ),
             TextField(
               controller: valueController,
+              keyboardType: TextInputType.numberWithOptions(decimal: true),
+              // usa esse numberWithOptions porque no teclado numero do ios nao vem com separador  
+              //ai precisa add isso
               decoration: InputDecoration(
                 labelText: "Valor (R\$)",
               ),

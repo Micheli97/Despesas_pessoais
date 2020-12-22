@@ -14,7 +14,7 @@ class _TransactionUserState extends State<TransactionUser> {
 
   final _transactions = [
     Transaction(
-        id: 't1',
+        id: 't1', 
         title: 'Novo Tênis de Corrida',
         value: 310.76,
         date: DateTime.now()),
@@ -54,14 +54,14 @@ class _TransactionUserState extends State<TransactionUser> {
   Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
+        TransactionForm(_addTransaction), // comunicação indireta = estou passando uma função para o componente filho
+        // aqui eu estou passando a função _transactions para o componente TransactionList 
+        // por meio do construtor
+
         TransactionList(_transactions), // comunicação direta = estou passando valores para o componente filho
         // aqui eu estou recebendo os dados add na lista transactions e
         // convertendo todos eles para elementos visuais com o componente
         // TransactionList
-        
-        TransactionForm(_addTransaction), // comunicação indireta = estou passando uma função para o componente filho
-        // aqui eu estou passando a função _transactions para o componente TransactionList 
-        // por meio do construtor
       ],
     );
   }
