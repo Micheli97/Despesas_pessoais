@@ -28,7 +28,7 @@ class TransactionList extends StatelessWidget {
                     fit: BoxFit.cover,
                   ),
                 ),
-              ],
+              ], 
             )
           : ListView.builder(
               itemCount: transactions.length,
