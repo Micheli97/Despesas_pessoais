@@ -3,6 +3,7 @@ import 'package:act01/componets/transaction_form.dart';
 import 'package:flutter/material.dart';
 import 'componets/transaction_list.dart';
 import 'models/transactions.dart';
+import 'models/transactions.dart';
 
 class Dashboard extends StatefulWidget {
   @override
@@ -17,18 +18,18 @@ class _DashboardState extends State<Dashboard> {
   // o uso da função Final torna os valores passados para os elementos da classe
   // imutaveis
 
-  final _transactions = [
-    Transaction(
-        id: 't1',
-        title: 'Novo Tênis de Corrida',
-        value: 310.76,
-        date: DateTime.now()),
-    Transaction(
-      id: 't2',
-      title: 'Conta de Luz',
-      value: 211.30,
-      date: DateTime.now(),
-    )
+  final List<Transaction> _transactions = [
+    // Transaction(
+    //     id: 't1',
+    //     title: 'Novo Tênis de Corrida',
+    //     value: 310.76,
+    //     date: DateTime.now()),
+    // Transaction(
+    //   id: 't2',
+    //   title: 'Conta de Luz',
+    //   value: 211.30,
+    //   date: DateTime.now(),
+    // )
   ];
 
   _addTransaction(String title, double value) {

@@ -35,6 +35,7 @@ class _TransactionFormState extends State<TransactionForm> {
           children: <Widget>[
             TextField(
               controller: titleController,
+              onChanged: (_) => _submitForm(),
               decoration: InputDecoration(
                 labelText: "Título",
               ),
@@ -44,6 +45,7 @@ class _TransactionFormState extends State<TransactionForm> {
               keyboardType: TextInputType.numberWithOptions(decimal: true),
               // usa esse numberWithOptions porque no teclado numero do ios nao vem com separador  
               //ai precisa add isso
+              onChanged: (_) => _submitForm(),
               decoration: InputDecoration(
                 labelText: "Valor (R\$)",
               ),
@@ -54,14 +56,7 @@ class _TransactionFormState extends State<TransactionForm> {
                 FlatButton(
                   child: Text("Nova transação"),
                   textColor: Colors.purple,
-                  onPressed: () {
-                    final title = titleController.text;
-                    final value = double.tryParse(valueController.text) ?? 0.0;
-                    // aqui caso nao consiga converte o valor passado ele ira retornar 0.0
-                    widget.onSubmit(title, value);
-                    // aqui eu estou chamamndo a função recebida pelo construtor
-                    // e add os valores recebidos (title e value) 
-                  },
+                  onPressed: _submitForm,
                 ),
               ],
             )
