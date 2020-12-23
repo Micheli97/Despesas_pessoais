@@ -17,7 +17,6 @@ class TransactionList extends StatelessWidget {
       child: ListView.builder(
         itemCount: transactions.length,
         itemBuilder: (ctx, index) {
-          
           final tr = transactions[index];
           // a informação será um tr que ira pegar os valores da lista transactions na posição index
 
@@ -30,7 +29,13 @@ class TransactionList extends StatelessWidget {
                   vertical: 10,
                 ),
                 decoration: BoxDecoration(
-                    border: Border.all(color: Colors.purple, width: 2)),
+                  border: Border.all(
+                    color: Theme.of(context).primaryColor,
+                    // Theme.of(context).primaryColor - a partir de um método estatico theme, passando um contexto
+                    // é possivel acessa algo que está em outro componente
+                    width: 2,
+                  ),
+                ),
                 padding: EdgeInsets.all(10),
                 child: Text(
                   "R\$ ${tr.value.toStringAsFixed(2)}",
@@ -42,7 +47,7 @@ class TransactionList extends StatelessWidget {
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 20,
-                    color: Colors.purple,
+                    color: Theme.of(context).primaryColor,
                   ),
                 ),
               ),

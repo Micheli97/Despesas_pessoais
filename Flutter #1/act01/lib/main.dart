@@ -8,6 +8,11 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      theme: ThemeData(
+        primaryColor: Colors.purple, // cor primaria que irá colori os elementos da
+        // aplicação
+        accentColor: Colors.amber,  // ira realcçar alguns elementos especificos da aplicação
+      ),
       home: Dashboard(),
     );
   }

@@ -1,27 +1,30 @@
 import 'package:flutter/material.dart';
 
-class TransactionForm extends StatelessWidget {
-  final titleController = TextEditingController();
-  final valueController = TextEditingController();
-  // Aqui eu estou usando essas variaveis para "pegarem" o valor
-  // digitado no TextField
-
+class TransactionForm extends StatefulWidget {
   final void Function(String, double) onSubmit;
 
   TransactionForm(this.onSubmit);
-  // Aqui eu estou recebendo uma função do componente pai atravez do construtor
 
-  _submitForm (){
+  @override
+  _TransactionFormState createState() => _TransactionFormState();
+}
+
+class _TransactionFormState extends State<TransactionForm> {
+  // estado privado pois começa por _ (anderline)
+  final titleController = TextEditingController();
+  final valueController = TextEditingController();
+
+  _submitForm() {
     final title = titleController.text;
     final value = double.tryParse(valueController.text) ?? 0.0;
 
-    if (title.isEmpty || value <= 0){
+    if(title.isEmpty || value <= 0){
       return;
     }
 
-    onSubmit(title, value);
+    widget.onSubmit(title,value);
   }
-  
+
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -55,7 +58,7 @@ class TransactionForm extends StatelessWidget {
                     final title = titleController.text;
                     final value = double.tryParse(valueController.text) ?? 0.0;
                     // aqui caso nao consiga converte o valor passado ele ira retornar 0.0
-                    onSubmit(title, value);
+                    widget.onSubmit(title, value);
                     // aqui eu estou chamamndo a função recebida pelo construtor
                     // e add os valores recebidos (title e value) 
                   },
