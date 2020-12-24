@@ -50,6 +50,15 @@ class Chart extends StatelessWidget {
     });
   }
 
+  double get _weekTotalValue{
+    return groupedTransactions.fold(0.0, (sum, tr) {
+      // o atributo fold funciona como reduce
+      return sum += tr['value'];
+      // o sum esta recebendo o valor inicial passado na função (0.0) e somando
+      // com o valor da transação
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -62,7 +71,7 @@ class Chart extends StatelessWidget {
           return ChartBar(
             label: tr['day'],
             value: tr['value'],
-            percentage: 0.3,
+            percentage: (tr['value'] as double) / _weekTotalValue,
           );
         }).toList(),
       ),
