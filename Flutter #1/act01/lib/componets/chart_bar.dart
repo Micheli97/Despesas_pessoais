@@ -16,7 +16,7 @@ class ChartBar extends StatelessWidget {
     return Column(
       children: [
         FittedBox(
-          child: Text('R\$${value.toStringAsFixed(2)}'),
+          child: Text('${value.toStringAsFixed(2)}'),
         ),
         SizedBox(height: 5),
         Container(

@@ -46,8 +46,12 @@ class Chart extends StatelessWidget {
 
         'value': totalSum,
       };
-      // aqui os valores retornados são estáticos
-    });
+      
+    }).reversed.toList();
+    // aqui eu estou invertendo os valores e dias da semana para que o dia mais atual fique na parte
+    // da direita, por isso o uso do reversed
+    // o reversed retorna um interavel e como eu preciso de uma lista entao converto para uma lista usando o 
+    // toList
   }
 
   double get _weekTotalValue {

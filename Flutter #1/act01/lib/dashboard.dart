@@ -4,7 +4,6 @@ import 'package:act01/componets/transaction_form.dart';
 import 'package:flutter/material.dart';
 import 'componets/transaction_list.dart';
 import 'models/transactions.dart';
-import 'models/transactions.dart';
 
 class Dashboard extends StatefulWidget {
   @override
@@ -29,6 +28,18 @@ class _DashboardState extends State<Dashboard> {
       id: 't2',
       title: 'Conta de Luz',
       value: 211.30,
+      date: DateTime.now().subtract(Duration(days: 4)),
+    ),
+    Transaction(
+      id: 't3',
+      title: 'Conta de internet',
+      value: 60.00,
+      date: DateTime.now().subtract(Duration(days: 4)),
+    ),
+    Transaction(
+      id: 't4',
+      title: 'Netflix',
+      value: 40.00,
       date: DateTime.now().subtract(Duration(days: 4)),
     )
   ];
