@@ -41,6 +41,12 @@ class _DashboardState extends State<Dashboard> {
       title: 'Netflix',
       value: 40.00,
       date: DateTime.now().subtract(Duration(days: 4)),
+    ),
+    Transaction(
+      id: 't5',
+      title: 'Amazon',
+      value: 10.00,
+      date: DateTime.now().subtract(Duration(days: 4)),
     )
   ];
 
