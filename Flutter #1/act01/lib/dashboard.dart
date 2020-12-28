@@ -19,38 +19,44 @@ class _DashboardState extends State<Dashboard> {
 
   final List<Transaction> _transactions = [
     Transaction(
-      id: 't1',
-      title: 'Novo Tênis de Corrida',
-      value: 310.76,
-      date: DateTime.now().subtract(Duration(days: 2))
-    ),
-    Transaction(
-      id: 't2',
-      title: 'Conta de Luz',
-      value: 211.30,
-      date: DateTime.now().subtract(Duration(days: 4)),
-    ),
-    Transaction(
-      id: 't3',
-      title: 'Conta de internet',
-      value: 60.00,
-      date: DateTime.now().subtract(Duration(days: 4)),
-    ),
-    Transaction(
-      id: 't4',
+      id: "t1",
       title: 'Netflix',
-      value: 40.00,
+      value: 32.90,
       date: DateTime.now().subtract(Duration(days: 4)),
     ),
     Transaction(
-      id: 't5',
+      id: "t2",
       title: 'Amazon',
       value: 10.00,
-      date: DateTime.now().subtract(Duration(days: 4)),
-    )
+      date: DateTime.now().subtract(Duration(days: 2)),
+    ),
+    Transaction(
+      id: "t3",
+      title: 'Cash lol',
+      value: 54.00,
+      date: DateTime.now().subtract(Duration(days: 3)),
+    ),
+    Transaction(
+      id: "t4",
+      title: 'Internet',
+      value: 100.00,
+      date: DateTime.now().subtract(Duration(days: 1)),
+    ),
+    Transaction(
+      id: "t5",
+      title: 'Conta de luz',
+      value: 150.00,
+      date: DateTime.now().subtract(Duration(days: 3)),
+    ),
+    Transaction(
+      id: "t5",
+      title: 'Lanche',
+      value: 50.00,
+      date: DateTime.now().subtract(Duration(days: 2)),
+    ),
   ];
 
-  _addTransaction(String title, double value) {
+  _addTransaction(String title, double value, DateTime date) {
     final newTransaction = Transaction(
       id: Random().nextDouble().toString(),
       // add valor randomico e converto o mesmo para string
@@ -59,7 +65,7 @@ class _DashboardState extends State<Dashboard> {
       // primeiro title atributo, segundo title parametro passado na função
 
       value: value,
-      date: DateTime.now(),
+      date: date,
     );
 
     setState(() {
@@ -87,6 +93,12 @@ class _DashboardState extends State<Dashboard> {
         Duration(days: 7),
       ));
     }).toList();
+  }
+
+  _removeTransaction(String id) {
+    setState(() {
+      _transactions.removeWhere((tr) => tr.id == id);
+    });
   }
 
   // modal para mostrar formulario
@@ -119,8 +131,8 @@ class _DashboardState extends State<Dashboard> {
         child: Column(
           children: <Widget>[
             Chart(_recentTransactions),
-            TransactionList(
-                _transactions), // comunicação direta = estou passando valores para o componente filho
+            TransactionList(_transactions,
+                _removeTransaction), // comunicação direta = estou passando valores para o componente filho
             // aqui eu estou recebendo os dados add na lista transactions e
             // convertendo todos eles para elementos visuais com o componente
             // TransactionList

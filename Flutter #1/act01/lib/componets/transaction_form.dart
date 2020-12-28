@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class TransactionForm extends StatefulWidget {
-  final void Function(String, double) onSubmit;
+  final void Function(String, double, DateTime) onSubmit;
+  // aqui eu estou passando string como o nome da nova transacao, double como valor da transacao
+  // e o DateTime como o valor da data selecionada
 
   TransactionForm(this.onSubmit);
 
@@ -11,18 +14,39 @@ class TransactionForm extends StatefulWidget {
 
 class _TransactionFormState extends State<TransactionForm> {
   // estado privado pois começa por _ (anderline)
-  final titleController = TextEditingController();
-  final valueController = TextEditingController();
+  final _titleController = TextEditingController();
+  final _valueController = TextEditingController();
+  DateTime _selectedDate = DateTime.now(); // aqui ele esta pegando o valor da data atual
+  //DateTime _selectedDate; // ira armazenar o valor da data selecionado
 
   _submitForm() {
-    final title = titleController.text;
-    final value = double.tryParse(valueController.text) ?? 0.0;
+    final title = _titleController.text;
+    final value = double.tryParse(_valueController.text) ?? 0.0;
 
-    if (title.isEmpty || value <= 0) {
+    if (title.isEmpty || value <= 0 || _selectedDate == null) {
       return;
     }
 
-    widget.onSubmit(title, value);
+    widget.onSubmit(title, value,  _selectedDate);
+  }
+
+  _showDatePicker() {
+    // este modal ira retornar o DatePicker com o calendario
+    showDatePicker(
+      context: context,
+      initialDate: DateTime.now(), // data inicial mostrando a data atual
+      firstDate: DateTime(2020), // inicio de quando o caledario ira contar
+      lastDate: DateTime.now(), // ultima data, no caso, a atual
+    ).then((pickedDate) {
+      if (pickedDate == null) {
+        return;
+      }
+
+      setState(() {
+        _selectedDate = pickedDate;
+      });
+    });
+    // funcao futuro que sera chamamda quando o usuario selecionar uma data
   }
 
   @override
@@ -34,14 +58,14 @@ class _TransactionFormState extends State<TransactionForm> {
         child: Column(
           children: <Widget>[
             TextField(
-              controller: titleController,
+              controller: _titleController,
               onChanged: (_) => _submitForm(),
               decoration: InputDecoration(
                 labelText: "Título",
               ),
             ),
             TextField(
-              controller: valueController,
+              controller: _valueController,
               keyboardType: TextInputType.numberWithOptions(decimal: true),
               // usa esse numberWithOptions porque no teclado numero do ios nao vem com separador
               //ai precisa add isso
@@ -54,7 +78,15 @@ class _TransactionFormState extends State<TransactionForm> {
               height: 70,
               child: Row(
                 children: [
-                  Text('Nenhum data selecionada!'),
+                  Expanded(
+                    child: Text(
+                      _selectedDate == null
+                          ? 'Nenhum data selecionada!'
+                          : 'Data Selecionada: ${DateFormat('dd/MM/y').format(_selectedDate)}',
+                      // aqui estou verificando se a variavel _selectedDate é igual a null, se for ira retornar a frase
+                      // Nenhuma data selecionda, se não irá retornar a data escolhida e formatada com o padrao internacional
+                    ),
+                  ),
                   FlatButton(
                     textColor: Theme.of(context).primaryColor,
                     child: Text(
@@ -63,7 +95,7 @@ class _TransactionFormState extends State<TransactionForm> {
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    onPressed: () {},
+                    onPressed: _showDatePicker,
                   ),
                 ],
               ),

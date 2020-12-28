@@ -81,7 +81,9 @@ class Chart extends StatelessWidget {
               child: ChartBar(
                 label: tr['day'],
                 value: tr['value'],
-                percentage: (tr['value'] as double) / _weekTotalValue,
+                percentage: _weekTotalValue == 0 ? 0 : (tr['value'] as double) / _weekTotalValue,
+                // essa verificacao e necessaria para que quando a lista for vazia nao ocorra um erro de divisao por 0
+                // na funcao de logica para add novas transacoes
               ),
             );
           }).toList(),
