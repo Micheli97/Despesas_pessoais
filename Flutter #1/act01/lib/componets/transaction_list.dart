@@ -28,64 +28,38 @@ class TransactionList extends StatelessWidget {
                     fit: BoxFit.cover,
                   ),
                 ),
-              ], 
+              ],
             )
           : ListView.builder(
               itemCount: transactions.length,
               itemBuilder: (ctx, index) {
                 final tr = transactions[index];
                 // a informação será um tr que ira pegar os valores da lista transactions na posição index
-
                 return Card(
-                    child: Row(
-                  children: <Widget>[
-                    Container(
-                      margin: EdgeInsets.symmetric(
-                        horizontal: 15,
-                        vertical: 10,
-                      ),
-                      decoration: BoxDecoration(
-                        border: Border.all(
-                          color: Theme.of(context).primaryColor,
-                          // Theme.of(context).primaryColor - a partir de um método estatico theme, passando um contexto
-                          // é possivel acessa algo que está em outro componente
-                          width: 2,
-                        ),
-                      ),
-                      padding: EdgeInsets.all(10),
-                      child: Text(
-                        "R\$ ${tr.value.toStringAsFixed(2)}",
-
-                        // .toStriingAsFixed add casas decimais
-                        // aqui estou convertendo um valor do tipo double para string
-                        // pois e o valor suportado pelo elemento Text()
-
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 20,
-                          color: Theme.of(context).primaryColor,
+                  elevation: 5,
+                  margin: EdgeInsets.symmetric(
+                    vertical: 8,
+                    horizontal: 5,
+                  ),
+                  child: ListTile(
+                    leading: CircleAvatar(
+                      radius: 30,
+                      child: Padding(
+                        padding: const EdgeInsets.all(6.0),
+                        child: FittedBox(
+                          child: Text('R\$${tr.value}'),
                         ),
                       ),
                     ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Text(
-                          tr.title,
-                          style: Theme.of(context).textTheme.headline6,
-                        ),
-                        Text(
-                          DateFormat('d MMM y').format(tr.date),
-                          // da mesma forma que foi acima tem que converter o valor data
-                          // para string pois e o valor suportado pelo elemento Text
-                          style: TextStyle(
-                            color: Colors.grey,
-                          ),
-                        ),
-                      ],
+                    title: Text(
+                      tr.title,
+                      style: Theme.of(context).textTheme.headline6,
                     ),
-                  ],
-                ));
+                    subtitle: Text(
+                      DateFormat('d MMM y').format(tr.date),
+                    ),
+                  ),
+                );
               },
             ),
     );
