@@ -99,10 +99,10 @@ class _DashboardState extends State<Dashboard> {
     final appBar = AppBar(
       title: Text(
         "Despesas pessoais",
-        style: TextStyle(
-          fontSize: 20 * MediaQuery.of(context).textScaleFactor,
-          // essa propriedade deixa os textos responsivos
-        ),
+        // style: TextStyle(
+        //   fontSize: 20 * MediaQuery.of(context).textScaleFactor,
+        //   // essa propriedade deixa os textos responsivos
+        // ),
       ),
       actions: [
         IconButton(
