@@ -11,11 +11,6 @@ class Dashboard extends StatefulWidget {
 }
 
 class _DashboardState extends State<Dashboard> {
-  // A partir desse elemento e que os dados serão alterados na tela por isso o uso do stateful
-  // Aqui eu estou listando os elementos que estao dentro da classe Transactions
-  // e atribuindo valores estáticos a esses elementos
-  // o uso da função Final torna os valores passados para os elementos da classe
-  // imutaveis
 
   final List<Transaction> _transactions = [
     Transaction(
@@ -59,36 +54,27 @@ class _DashboardState extends State<Dashboard> {
   _addTransaction(String title, double value, DateTime date) {
     final newTransaction = Transaction(
       id: Random().nextDouble().toString(),
-      // add valor randomico e converto o mesmo para string
 
       title: title,
-      // primeiro title atributo, segundo title parametro passado na função
 
       value: value,
       date: date,
     );
 
     setState(() {
-      // quando os valores recebidos forem passados para essa função
-      // ele irá modificar o estado da lista e add todos os dados recebidos
-      // a lista
 
       _transactions.add(newTransaction);
-      // Aqui eu estou pegando os novos valores e add na lista transaction
-      // aqui eu estou mudando o estado do componente newTransaction
 
       Navigator.of(context).pop();
-      // o modal fecha quando atualiza o estado
     });
   }
 
   List<Transaction> get _recentTransactions {
-    // pegandos todas as transações recentes
     return _transactions.where((tr) {
-      // aque esta retornando um filtro de transações
-      // ele vai filtrar as transaçoes e verificar se a data e de depois da subtração
-      // do dia atual menos  dias
-      // se for verdade ele vai retornar uma lista com as informações
+      // Here he is returning a transaction filter;
+      // It will filter the transations and check if the date. After he will subtract
+      // the days minus the defined duration;
+      // if true he will go return a list with informations.
       return tr.date.isAfter(DateTime.now().subtract(
         Duration(days: 7),
       ));
@@ -100,8 +86,6 @@ class _DashboardState extends State<Dashboard> {
       _transactions.removeWhere((tr) => tr.id == id);
     });
   }
-
-  // modal para mostrar formulario
   _openTransactionFormModal(BuildContext context) {
     showModalBottomSheet(
         context: context,
@@ -115,6 +99,10 @@ class _DashboardState extends State<Dashboard> {
     final appBar = AppBar(
       title: Text(
         "Despesas pessoais",
+        style: TextStyle(
+          fontSize: 20 * MediaQuery.of(context).textScaleFactor,
+          // essa propriedade deixa os textos responsivos
+        ),
       ),
       actions: [
         IconButton(
