@@ -122,8 +122,10 @@ class _DashboardState extends State<Dashboard> {
       appBar: appBar,
       body: SingleChildScrollView(
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
             Row(
+              mainAxisAlignment:  MainAxisAlignment.center,
               children: [
                 Text('Exibir Gráfico'),
                 Switch(
@@ -143,8 +145,9 @@ class _DashboardState extends State<Dashboard> {
                     height: availableHeight * 0.3,
                     child: Chart(_recentTransactions),
                   )
-                : // se a verificação acima nao for verdade ele ira retornar esse container
+                 // se a verificação acima nao for verdade ele ira retornar esse container
                 // aqui eu apliquei um container nesse widget para poder aplicar o responsivo na altura dele
+                :
                 Container(
                     height: availableHeight * 0.7,
                     child: TransactionList(_transactions, _removeTransaction),

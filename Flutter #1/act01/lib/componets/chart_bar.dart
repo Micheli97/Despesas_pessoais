@@ -17,7 +17,7 @@ class ChartBar extends StatelessWidget {
       // a coluna foi envolvida com o layoutbuilder para ser possivel pegar
       //apenas o tamanho do componente e nao o da tela
       builder: (ctx, constraints) {
-        Column(
+        return Column(
           children: [
             Container(
               height: constraints.maxHeight * 0.15,
