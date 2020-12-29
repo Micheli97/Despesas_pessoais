@@ -95,6 +95,7 @@ class _DashboardState extends State<Dashboard> {
 
   @override
   Widget build(BuildContext context) {
+    bool isLandscape = MediaQuery.of(context).orientation == Orientation.landscape;
     final appBar = AppBar(
       title: Text(
         "Despesas pessoais",
@@ -111,8 +112,7 @@ class _DashboardState extends State<Dashboard> {
       ],
     );
 
-    final availableHeight = MediaQuery.of(context).size.height -
-        appBar.preferredSize.height -
+    final availableHeight = MediaQuery.of(context).size.height - appBar.preferredSize.height -
         MediaQuery.of(context).padding.top;
     // MediaQuery modelo estatico pegando o contexto do aplicação, pegando o tamanho da altura
     // aqui eu estou calculando a altura da aplcação para aplicar o responsivo nos widgets da aplicação
@@ -124,6 +124,7 @@ class _DashboardState extends State<Dashboard> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
+           if (isLandscape) 
             Row(
               mainAxisAlignment:  MainAxisAlignment.center,
               children: [
@@ -137,17 +138,17 @@ class _DashboardState extends State<Dashboard> {
                   },
                 )
               ],
-            ),
+            )
             // Aqui será a alternancia entre o grafico e a lista
-            _showChart
-                ? // se o showChart for verdadeiro irá mostrar o container abaixo
+            if (_showChart || isLandscape)
+                 // se o showChart for verdadeiro irá mostrar o container abaixo
                 Container(
                     height: availableHeight * 0.3,
                     child: Chart(_recentTransactions),
                   )
                  // se a verificação acima nao for verdade ele ira retornar esse container
                 // aqui eu apliquei um container nesse widget para poder aplicar o responsivo na altura dele
-                :
+            if (!islandscape)
                 Container(
                     height: availableHeight * 0.7,
                     child: TransactionList(_transactions, _removeTransaction),
