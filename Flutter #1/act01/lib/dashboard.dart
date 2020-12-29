@@ -11,7 +11,6 @@ class Dashboard extends StatefulWidget {
 }
 
 class _DashboardState extends State<Dashboard> {
-
   final List<Transaction> _transactions = [
     Transaction(
       id: "t1",
@@ -51,18 +50,17 @@ class _DashboardState extends State<Dashboard> {
     ),
   ];
 
+  bool _showChart = false;
+
   _addTransaction(String title, double value, DateTime date) {
     final newTransaction = Transaction(
       id: Random().nextDouble().toString(),
-
       title: title,
-
       value: value,
       date: date,
     );
 
     setState(() {
-
       _transactions.add(newTransaction);
 
       Navigator.of(context).pop();
@@ -86,6 +84,7 @@ class _DashboardState extends State<Dashboard> {
       _transactions.removeWhere((tr) => tr.id == id);
     });
   }
+
   _openTransactionFormModal(BuildContext context) {
     showModalBottomSheet(
         context: context,
@@ -124,15 +123,32 @@ class _DashboardState extends State<Dashboard> {
       body: SingleChildScrollView(
         child: Column(
           children: <Widget>[
-            Container(
-              height: availableHeight * 0.3,
-              child: Chart(_recentTransactions),
+            Row(
+              children: [
+                Text('Exibir Gráfico'),
+                Switch(
+                  value: _showChart,
+                  onChanged: (value) {
+                    setState(() {
+                      _showChart = value;
+                    });
+                  },
+                )
+              ],
             ),
-            // aqui eu apliquei um container nesse widget para poder aplicar o responsivo na altura dele
-            Container(
-              height: availableHeight * 0.7,
-              child: TransactionList(_transactions, _removeTransaction),
-            ),
+            // Aqui será a alternancia entre o grafico e a lista
+            _showChart
+                ? // se o showChart for verdadeiro irá mostrar o container abaixo
+                Container(
+                    height: availableHeight * 0.3,
+                    child: Chart(_recentTransactions),
+                  )
+                : // se a verificação acima nao for verdade ele ira retornar esse container
+                // aqui eu apliquei um container nesse widget para poder aplicar o responsivo na altura dele
+                Container(
+                    height: availableHeight * 0.7,
+                    child: TransactionList(_transactions, _removeTransaction),
+                  ),
           ],
         ),
       ),
