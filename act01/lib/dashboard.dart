@@ -140,7 +140,8 @@ class _DashboardState extends State<Dashboard> {
               ],
             )
             // Aqui será a alternancia entre o grafico e a lista
-            if (_showChart || isLandscape)
+            else 
+              if (_showChart || !isLandscape)
                  // se o showChart for verdadeiro irá mostrar o container abaixo
                 Container(
                     height: availableHeight * 0.3,
@@ -148,11 +149,12 @@ class _DashboardState extends State<Dashboard> {
                   )
                  // se a verificação acima nao for verdade ele ira retornar esse container
                 // aqui eu apliquei um container nesse widget para poder aplicar o responsivo na altura dele
-            if (!islandscape)
-                Container(
-                    height: availableHeight * 0.7,
-                    child: TransactionList(_transactions, _removeTransaction),
-                  ),
+              else 
+                if (!_showChart || !isLandscape)
+                  Container(
+                      height: availableHeight * 0.7,
+                      child: TransactionList(_transactions, _removeTransaction),
+                    ),
           ],
         ),
       ),
