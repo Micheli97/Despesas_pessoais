@@ -112,35 +112,42 @@ class _DashboardState extends State<Dashboard> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      // cabeçalho da aplicação
-      appBar: AppBar(
-        title: Text(
-          "Despesas pessoais",
-        ),
-        actions: [
-          IconButton(
-            icon: Icon(Icons.add),
-            onPressed: () => _openTransactionFormModal(context),
-          )
-        ],
+    final appBar = AppBar(
+      title: Text(
+        "Despesas pessoais",
       ),
+      actions: [
+        IconButton(
+          icon: Icon(Icons.add),
+          onPressed: () => _openTransactionFormModal(context),
+        )
+      ],
+    );
 
-      // Corpo da aplicação
+    final availableHeight = MediaQuery.of(context).size.height -
+        appBar.preferredSize.height -
+        MediaQuery.of(context).padding.top;
+    // MediaQuery modelo estatico pegando o contexto do aplicação, pegando o tamanho da altura
+    // aqui eu estou calculando a altura da aplcação para aplicar o responsivo nos widgets da aplicação
+    // nesse calculo eu estou subtraindo do tamanho disponivel a altura da appBar e da barra de status top
+
+    return Scaffold(
+      appBar: appBar,
       body: SingleChildScrollView(
         child: Column(
           children: <Widget>[
-            Chart(_recentTransactions),
-            TransactionList(_transactions,
-                _removeTransaction), // comunicação direta = estou passando valores para o componente filho
-            // aqui eu estou recebendo os dados add na lista transactions e
-            // convertendo todos eles para elementos visuais com o componente
-            // TransactionList
+            Container(
+              height: availableHeight * 0.3,
+              child: Chart(_recentTransactions),
+            ),
+            // aqui eu apliquei um container nesse widget para poder aplicar o responsivo na altura dele
+            Container(
+              height: availableHeight * 0.7,
+              child: TransactionList(_transactions, _removeTransaction),
+            ),
           ],
         ),
       ),
-
-      // botao flutuante
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),
         onPressed: () => _openTransactionFormModal(context),
