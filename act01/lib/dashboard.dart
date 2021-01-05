@@ -51,6 +51,8 @@ class _DashboardState extends State<Dashboard> {
   ];
 
   bool _showChart = false;
+  // variavel de controle que irá receber um valor booleano para
+  //mostrar ou não o gráfico
 
   _addTransaction(String title, double value, DateTime date) {
     final newTransaction = Transaction(
@@ -95,7 +97,8 @@ class _DashboardState extends State<Dashboard> {
 
   @override
   Widget build(BuildContext context) {
-    bool isLandscape = MediaQuery.of(context).orientation == Orientation.landscape;
+    bool isLandscape =
+        MediaQuery.of(context).orientation == Orientation.landscape;
     final appBar = AppBar(
       title: Text(
         "Despesas pessoais",
@@ -105,6 +108,15 @@ class _DashboardState extends State<Dashboard> {
         // ),
       ),
       actions: [
+        if (isLandscape)
+          // se ele verificar que a tela está na horizontal irá mostrar os elementos abaixo
+          IconButton(
+              icon: Icon(_showChart ? Icons.list : Icons.pie_chart),
+              onPressed: () {
+                setState(() {
+                  _showChart = !_showChart;
+                });
+              }),
         IconButton(
           icon: Icon(Icons.add),
           onPressed: () => _openTransactionFormModal(context),
@@ -112,7 +124,8 @@ class _DashboardState extends State<Dashboard> {
       ],
     );
 
-    final availableHeight = MediaQuery.of(context).size.height - appBar.preferredSize.height -
+    final availableHeight = MediaQuery.of(context).size.height -
+        appBar.preferredSize.height -
         MediaQuery.of(context).padding.top;
     // MediaQuery modelo estatico pegando o contexto do aplicação, pegando o tamanho da altura
     // aqui eu estou calculando a altura da aplcação para aplicar o responsivo nos widgets da aplicação
@@ -124,37 +137,39 @@ class _DashboardState extends State<Dashboard> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
-           if (isLandscape) 
-            Row(
-              mainAxisAlignment:  MainAxisAlignment.center,
-              children: [
-                Text('Exibir Gráfico'),
-                Switch(
-                  value: _showChart,
-                  onChanged: (value) {
-                    setState(() {
-                      _showChart = value;
-                    });
-                  },
-                )
-              ],
-            )
+            // if (isLandscape)
+            //   Row(
+            //     mainAxisAlignment: MainAxisAlignment.center,
+            //     children: [
+            //       Text('Exibir Gráfico'),
+            //       Switch(
+            //         value: _showChart,
+            //         onChanged: (value) {
+            //           setState(() {
+            //             _showChart = value;
+            //           });
+            //         },
+            //       )
+            //     ],
+            //   )
             // Aqui será a alternancia entre o grafico e a lista
-            else 
-              if (_showChart || !isLandscape)
-                 // se o showChart for verdadeiro irá mostrar o container abaixo
-                Container(
-                    height: availableHeight * 0.3,
-                    child: Chart(_recentTransactions),
-                  )
-                 // se a verificação acima nao for verdade ele ira retornar esse container
-                // aqui eu apliquei um container nesse widget para poder aplicar o responsivo na altura dele
-              else 
-                if (!_showChart || !isLandscape)
-                  Container(
-                      height: availableHeight * 0.7,
-                      child: TransactionList(_transactions, _removeTransaction),
-                    ),
+            if (_showChart || !isLandscape)
+              // se o showChart for verdadeiro irá mostrar o container abaixo
+              Container(
+                height: availableHeight *
+                    (isLandscape
+                        ? 0.7
+                        : 0.3), // se ele estiver em modo retrato irá mostrar
+                // a altura do gráfico multiplicado por 0.7 se não mostrará multiplicado por 0.3
+                child: Chart(_recentTransactions),
+              )
+            // se a verificação acima nao for verdade ele ira retornar esse container
+            // aqui eu apliquei um container nesse widget para poder aplicar o responsivo na altura dele
+            else if (!_showChart || !isLandscape)
+              Container(
+                height: availableHeight * 0.7,
+                child: TransactionList(_transactions, _removeTransaction),
+              ),
           ],
         ),
       ),
