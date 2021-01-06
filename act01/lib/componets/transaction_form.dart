@@ -1,4 +1,5 @@
 import 'package:act01/componets/adaptative_button.dart';
+import 'package:act01/componets/adaptative_textfield.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -66,22 +67,18 @@ class _TransactionFormState extends State<TransactionForm> {
           ),
           child: Column(
             children: <Widget>[
-              TextField(
+              AdaptativeTextfield(
+                label: "Título",
                 controller: _titleController,
-                onChanged: (_) => _submitForm(),
-                decoration: InputDecoration(
-                  labelText: "Título",
-                ),
+                onsubmitted: (_) => _submitForm(),
               ),
-              TextField(
+              AdaptativeTextfield(
+                label: "Valor (R\$)",
                 controller: _valueController,
                 keyboardType: TextInputType.numberWithOptions(decimal: true),
                 // usa esse numberWithOptions porque no teclado numero do ios
                 // nao vem com separador ai precisa add isso
-                onChanged: (_) => _submitForm(),
-                decoration: InputDecoration(
-                  labelText: "Valor (R\$)",
-                ),
+                onsubmitted: (_) => _submitForm(),
               ),
               Container(
                 height: 70,
