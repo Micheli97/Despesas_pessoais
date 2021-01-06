@@ -4,7 +4,8 @@ import 'package:intl/intl.dart';
 
 class TransactionForm extends StatefulWidget {
   final void Function(String, double, DateTime) onSubmit;
-  // aqui eu estou passando string como o nome da nova transacao, double como valor da transacao
+  // aqui eu estou passando string como o nome da nova transacao, double como
+  //valor da transacao
   // e o DateTime como o valor da data selecionada
 
   TransactionForm(this.onSubmit);
@@ -75,8 +76,8 @@ class _TransactionFormState extends State<TransactionForm> {
               TextField(
                 controller: _valueController,
                 keyboardType: TextInputType.numberWithOptions(decimal: true),
-                // usa esse numberWithOptions porque no teclado numero do ios nao vem com separador
-                //ai precisa add isso
+                // usa esse numberWithOptions porque no teclado numero do ios
+                // nao vem com separador ai precisa add isso
                 onChanged: (_) => _submitForm(),
                 decoration: InputDecoration(
                   labelText: "Valor (R\$)",
@@ -91,8 +92,9 @@ class _TransactionFormState extends State<TransactionForm> {
                         _selectedDate == null
                             ? 'Nenhum data selecionada!'
                             : 'Data Selecionada: ${DateFormat('dd/MM/y').format(_selectedDate)}',
-                        // aqui estou verificando se a variavel _selectedDate é igual a null, se for ira retornar a frase
-                        // Nenhuma data selecionda, se não irá retornar a data escolhida e formatada com o padrao internacional
+                        // aqui estou verificando se a variavel _selectedDate é igual a null,
+                        //se for ira retornar a frase. Nenhuma data selecionda, se não irá retornar
+                        // e formatada com o padrao internacional
                       ),
                     ),
                     FlatButton(
