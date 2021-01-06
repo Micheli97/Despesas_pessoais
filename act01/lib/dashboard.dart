@@ -127,7 +127,7 @@ class _DashboardState extends State<Dashboard> {
     final actions = [
       if (isLandscape)
         // se ele verificar que a tela está na horizontal irá mostrar os elementos abaixo
-        _getIconButton(_showChart ? Icons.list : chartList, () {
+        _getIconButton(_showChart ? iconList : chartList, () {
           setState(() {
             _showChart = !_showChart;
           });
