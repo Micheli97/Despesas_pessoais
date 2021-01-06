@@ -2,6 +2,7 @@ import 'dart:io';
 import 'dart:math';
 import 'package:act01/componets/chart.dart';
 import 'package:act01/componets/transaction_form.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'componets/transaction_list.dart';
 import 'models/transactions.dart';
@@ -102,35 +103,53 @@ class _DashboardState extends State<Dashboard> {
         });
   }
 
+  Widget _getIconButton(IconData icon, Function fn) {
+    return Platform.isIOS
+        ? GestureDetector(
+            onTap: fn,
+            child: Icon(icon),
+          )
+        : IconButton(
+            icon: Icon(icon),
+            onPressed: fn,
+          );
+  }
+
   @override
   Widget build(BuildContext context) {
     final mediaQuery = MediaQuery.of(context);
     bool isLandscape = mediaQuery.orientation == Orientation.landscape;
 
-    final appBar = AppBar(
-      title: Text(
-        "Despesas pessoais",
-        // style: TextStyle(
-        //   fontSize: 20 * MediaQuery.of(context).textScaleFactor,
-        //   // essa propriedade deixa os textos responsivos
-        // ),
-      ),
-      actions: [
-        if (isLandscape)
-          // se ele verificar que a tela está na horizontal irá mostrar os elementos abaixo
-          IconButton(
-              icon: Icon(_showChart ? Icons.list : Icons.pie_chart),
-              onPressed: () {
-                setState(() {
-                  _showChart = !_showChart;
-                });
-              }),
-        IconButton(
-          icon: Icon(Icons.add),
-          onPressed: () => _openTransactionFormModal(context),
-        )
-      ],
-    );
+    final actions = [
+      if (isLandscape)
+        // se ele verificar que a tela está na horizontal irá mostrar os elementos abaixo
+        _getIconButton(_showChart ? Icons.list : Icons.pie_chart, () {
+          setState(() {
+            _showChart = !_showChart;
+          });
+        }),
+      _getIconButton(
+        Platform.isIOS ? CupertinoIcons.add : Icons.add,
+        // aqui estou verificando qual é a plataforma para que o widget seja aplicado
+        // de acordo com as suas caracteristicas padrao
+        () => _openTransactionFormModal(context),
+      )
+    ];
+
+    final PreferredSizeWidget appBar = Platform.isIOS
+        ? CupertinoNavigationBar(
+            middle: Text(
+                "Despesas pessoais"), // middle corresponde ao title do android
+            trailing: Row(
+              mainAxisSize: MainAxisSize.min,
+              // equievale a função actions do android
+              children: actions,
+            ),
+          )
+        : AppBar(
+            title: Text("Despesas pessoais"),
+            actions: actions,
+          );
 
     final availableHeight = mediaQuery.size.height -
         appBar.preferredSize.height -
@@ -139,58 +158,64 @@ class _DashboardState extends State<Dashboard> {
     // aqui eu estou calculando a altura da aplcação para aplicar o responsivo nos widgets da aplicação
     // nesse calculo eu estou subtraindo do tamanho disponivel a altura da appBar e da barra de status top
 
-    return Scaffold(
-      appBar: appBar,
-      body: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: <Widget>[
-            if (isLandscape)
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text('Exibir Gráfico'),
-                  Switch.adaptive(
-                    // aqui ele vai verificar a plataforma e adpatar o componente para os padroes da mesma
-                    activeColor: Theme.of(context).accentColor,
-                    value: _showChart,
-                    onChanged: (value) {
-                      setState(() {
-                        _showChart = value;
-                      });
-                    },
-                  )
-                ],
-              ),
-            // Aqui será a alternancia entre o grafico e a lista
-            if (_showChart || !isLandscape)
-              // se o showChart for verdadeiro irá mostrar o container abaixo
-              Container(
-                height: availableHeight *
-                    (isLandscape
-                        ? 0.7
-                        : 0.3), // se ele estiver em modo retrato irá mostrar
-                // a altura do gráfico multiplicado por 0.7 se não mostrará multiplicado por 0.3
-                child: Chart(_recentTransactions),
-              )
-            // se a verificação acima nao for verdade ele ira retornar esse container
-            // aqui eu apliquei um container nesse widget para poder aplicar o responsivo na altura dele
-            else if (!_showChart || !isLandscape)
-              Container(
-                height: availableHeight * (isLandscape ? 1 : 0.7),
-                child: TransactionList(_transactions, _removeTransaction),
-              ),
-          ],
-        ),
-      ),
-      // aqui estou verificando qual é a plataforma que o app está instalado
-      // se for ios o botao flutuante nao sera mostrado devido ao padrao da plataforma
-      floatingActionButton: Platform.isIOS
-          ? Container()
-          : FloatingActionButton(
-              child: Icon(Icons.add),
-              onPressed: () => _openTransactionFormModal(context),
+    final bodyPage = SingleChildScrollView(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: <Widget>[
+          if (isLandscape)
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text('Exibir Gráfico'),
+                Switch.adaptive(
+                  // aqui ele vai verificar a plataforma e adpatar o componente para os padroes da mesma
+                  activeColor: Theme.of(context).accentColor,
+                  value: _showChart,
+                  onChanged: (value) {
+                    setState(() {
+                      _showChart = value;
+                    });
+                  },
+                )
+              ],
             ),
+          // Aqui será a alternancia entre o grafico e a lista
+          if (_showChart || !isLandscape)
+            // se o showChart for verdadeiro irá mostrar o container abaixo
+            Container(
+              height: availableHeight *
+                  (isLandscape
+                      ? 0.7
+                      : 0.3), // se ele estiver em modo retrato irá mostrar
+              // a altura do gráfico multiplicado por 0.7 se não mostrará multiplicado por 0.3
+              child: Chart(_recentTransactions),
+            )
+          // se a verificação acima nao for verdade ele ira retornar esse container
+          // aqui eu apliquei um container nesse widget para poder aplicar o responsivo na altura dele
+          else if (!_showChart || !isLandscape)
+            Container(
+              height: availableHeight * (isLandscape ? 1 : 0.7),
+              child: TransactionList(_transactions, _removeTransaction),
+            ),
+        ],
+      ),
     );
+
+    return Platform.isIOS
+        ? CupertinoPageScaffold(
+            child: bodyPage,
+          )
+        : Scaffold(
+            appBar: appBar,
+            body: bodyPage,
+            // aqui estou verificando qual é a plataforma que o app está instalado
+            // se for ios o botao flutuante nao sera mostrado devido ao padrao da plataforma
+            floatingActionButton: Platform.isIOS
+                ? Container()
+                : FloatingActionButton(
+                    child: Icon(Icons.add),
+                    onPressed: () => _openTransactionFormModal(context),
+                  ),
+          );
   }
 }
