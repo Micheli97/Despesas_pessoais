@@ -37,6 +37,12 @@ class _DashboardState extends State<Dashboard> {
       date: DateTime.now().subtract(Duration(days: 1)),
     ),
     Transaction(
+      id: "t7",
+      title: 'pastel',
+      value: 30.00,
+      date: DateTime.now().subtract(Duration(days: 1)),
+    ),
+    Transaction(
       id: "t5",
       title: 'Conta de luz',
       value: 150.00,
@@ -99,6 +105,7 @@ class _DashboardState extends State<Dashboard> {
   Widget build(BuildContext context) {
     bool isLandscape =
         MediaQuery.of(context).orientation == Orientation.landscape;
+
     final appBar = AppBar(
       title: Text(
         "Despesas pessoais",

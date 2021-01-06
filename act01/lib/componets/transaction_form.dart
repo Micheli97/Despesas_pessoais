@@ -16,7 +16,8 @@ class _TransactionFormState extends State<TransactionForm> {
   // estado privado pois começa por _ (anderline)
   final _titleController = TextEditingController();
   final _valueController = TextEditingController();
-  DateTime _selectedDate = DateTime.now(); // aqui ele esta pegando o valor da data atual
+  DateTime _selectedDate =
+      DateTime.now(); // aqui ele esta pegando o valor da data atual
   //DateTime _selectedDate; // ira armazenar o valor da data selecionado
 
   _submitForm() {
@@ -27,7 +28,7 @@ class _TransactionFormState extends State<TransactionForm> {
       return;
     }
 
-    widget.onSubmit(title, value,  _selectedDate);
+    widget.onSubmit(title, value, _selectedDate);
   }
 
   _showDatePicker() {
@@ -51,67 +52,74 @@ class _TransactionFormState extends State<TransactionForm> {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      elevation: 5,
-      child: Padding(
-        padding: const EdgeInsets.all(10),
-        child: Column(
-          children: <Widget>[
-            TextField(
-              controller: _titleController,
-              onChanged: (_) => _submitForm(),
-              decoration: InputDecoration(
-                labelText: "Título",
+    return SingleChildScrollView(
+      child: Card(
+        elevation: 5,
+        child: Padding(
+          padding: EdgeInsets.only(
+            top: 10,
+            right: 10,
+            left: 10,
+            bottom: 10 + MediaQuery.of(context).viewInsets.bottom,
+          ),
+          child: Column(
+            children: <Widget>[
+              TextField(
+                controller: _titleController,
+                onChanged: (_) => _submitForm(),
+                decoration: InputDecoration(
+                  labelText: "Título",
+                ),
               ),
-            ),
-            TextField(
-              controller: _valueController,
-              keyboardType: TextInputType.numberWithOptions(decimal: true),
-              // usa esse numberWithOptions porque no teclado numero do ios nao vem com separador
-              //ai precisa add isso
-              onChanged: (_) => _submitForm(),
-              decoration: InputDecoration(
-                labelText: "Valor (R\$)",
+              TextField(
+                controller: _valueController,
+                keyboardType: TextInputType.numberWithOptions(decimal: true),
+                // usa esse numberWithOptions porque no teclado numero do ios nao vem com separador
+                //ai precisa add isso
+                onChanged: (_) => _submitForm(),
+                decoration: InputDecoration(
+                  labelText: "Valor (R\$)",
+                ),
               ),
-            ),
-            Container(
-              height: 70,
-              child: Row(
-                children: [
-                  Expanded(
-                    child: Text(
-                      _selectedDate == null
-                          ? 'Nenhum data selecionada!'
-                          : 'Data Selecionada: ${DateFormat('dd/MM/y').format(_selectedDate)}',
-                      // aqui estou verificando se a variavel _selectedDate é igual a null, se for ira retornar a frase
-                      // Nenhuma data selecionda, se não irá retornar a data escolhida e formatada com o padrao internacional
-                    ),
-                  ),
-                  FlatButton(
-                    textColor: Theme.of(context).primaryColor,
-                    child: Text(
-                      'Selecionar Data',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
+              Container(
+                height: 70,
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: Text(
+                        _selectedDate == null
+                            ? 'Nenhum data selecionada!'
+                            : 'Data Selecionada: ${DateFormat('dd/MM/y').format(_selectedDate)}',
+                        // aqui estou verificando se a variavel _selectedDate é igual a null, se for ira retornar a frase
+                        // Nenhuma data selecionda, se não irá retornar a data escolhida e formatada com o padrao internacional
                       ),
                     ),
-                    onPressed: _showDatePicker,
+                    FlatButton(
+                      textColor: Theme.of(context).primaryColor,
+                      child: Text(
+                        'Selecionar Data',
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      onPressed: _showDatePicker,
+                    ),
+                  ],
+                ),
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: <Widget>[
+                  FlatButton(
+                    child: Text("Nova transação"),
+                    color: Theme.of(context).primaryColor,
+                    onPressed: _submitForm,
+                    textColor: Theme.of(context).textTheme.button.color,
                   ),
                 ],
-              ),
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: <Widget>[
-                FlatButton(
-                  child: Text("Nova transação"),
-                  color: Theme.of(context).primaryColor,
-                  onPressed: _submitForm,
-                  textColor: Theme.of(context).textTheme.button.color,
-                ),
-              ],
-            )
-          ],
+              )
+            ],
+          ),
         ),
       ),
     );
