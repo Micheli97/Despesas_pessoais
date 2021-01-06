@@ -103,8 +103,8 @@ class _DashboardState extends State<Dashboard> {
 
   @override
   Widget build(BuildContext context) {
-    bool isLandscape =
-        MediaQuery.of(context).orientation == Orientation.landscape;
+    final mediaQuery = MediaQuery.of(context);
+    bool isLandscape = mediaQuery.orientation == Orientation.landscape;
 
     final appBar = AppBar(
       title: Text(
@@ -131,9 +131,9 @@ class _DashboardState extends State<Dashboard> {
       ],
     );
 
-    final availableHeight = MediaQuery.of(context).size.height -
+    final availableHeight = mediaQuery.size.height -
         appBar.preferredSize.height -
-        MediaQuery.of(context).padding.top;
+        mediaQuery.padding.top;
     // MediaQuery modelo estatico pegando o contexto do aplicação, pegando o tamanho da altura
     // aqui eu estou calculando a altura da aplcação para aplicar o responsivo nos widgets da aplicação
     // nesse calculo eu estou subtraindo do tamanho disponivel a altura da appBar e da barra de status top
@@ -174,7 +174,7 @@ class _DashboardState extends State<Dashboard> {
             // aqui eu apliquei um container nesse widget para poder aplicar o responsivo na altura dele
             else if (!_showChart || !isLandscape)
               Container(
-                height: availableHeight * 0.7,
+                height: availableHeight * (isLandscape ? 1 : 0.7),
                 child: TransactionList(_transactions, _removeTransaction),
               ),
           ],
