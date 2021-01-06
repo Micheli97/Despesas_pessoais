@@ -1,7 +1,7 @@
 import 'package:act01/componets/adaptative_button.dart';
+import 'package:act01/componets/adaptative_date_picker.dart';
 import 'package:act01/componets/adaptative_textfield.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 
 class TransactionForm extends StatefulWidget {
   final void Function(String, double, DateTime) onSubmit;
@@ -34,25 +34,6 @@ class _TransactionFormState extends State<TransactionForm> {
     widget.onSubmit(title, value, _selectedDate);
   }
 
-  _showDatePicker() {
-    // este modal ira retornar o DatePicker com o calendario
-    showDatePicker(
-      context: context,
-      initialDate: DateTime.now(), // data inicial mostrando a data atual
-      firstDate: DateTime(2020), // inicio de quando o caledario ira contar
-      lastDate: DateTime.now(), // ultima data, no caso, a atual
-    ).then((pickedDate) {
-      if (pickedDate == null) {
-        return;
-      }
-
-      setState(() {
-        _selectedDate = pickedDate;
-      });
-    });
-    // funcao futuro que sera chamamda quando o usuario selecionar uma data
-  }
-
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -80,32 +61,11 @@ class _TransactionFormState extends State<TransactionForm> {
                 // nao vem com separador ai precisa add isso
                 onsubmitted: (_) => _submitForm(),
               ),
-              Container(
-                height: 70,
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: Text(
-                        _selectedDate == null
-                            ? 'Nenhum data selecionada!'
-                            : 'Data Selecionada: ${DateFormat('dd/MM/y').format(_selectedDate)}',
-                        // aqui estou verificando se a variavel _selectedDate é igual a null,
-                        //se for ira retornar a frase. Nenhuma data selecionda, se não irá retornar
-                        // e formatada com o padrao internacional
-                      ),
-                    ),
-                    FlatButton(
-                      textColor: Theme.of(context).primaryColor,
-                      child: Text(
-                        'Selecionar Data',
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      onPressed: _showDatePicker,
-                    ),
-                  ],
-                ),
+              AdaptativeDatePicker(
+                selectedDate: _selectedDate,
+                onDateChanged: (newDate) {
+                  _selectedDate = newDate;
+                },
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
