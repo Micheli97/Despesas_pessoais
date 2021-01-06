@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'dart:math';
 import 'package:act01/componets/chart.dart';
 import 'package:act01/componets/transaction_form.dart';
@@ -144,21 +145,23 @@ class _DashboardState extends State<Dashboard> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
-            // if (isLandscape)
-            //   Row(
-            //     mainAxisAlignment: MainAxisAlignment.center,
-            //     children: [
-            //       Text('Exibir Gráfico'),
-            //       Switch(
-            //         value: _showChart,
-            //         onChanged: (value) {
-            //           setState(() {
-            //             _showChart = value;
-            //           });
-            //         },
-            //       )
-            //     ],
-            //   )
+            if (isLandscape)
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text('Exibir Gráfico'),
+                  Switch.adaptive(
+                    // aqui ele vai verificar a plataforma e adpatar o componente para os padroes da mesma
+                    activeColor: Theme.of(context).accentColor,
+                    value: _showChart,
+                    onChanged: (value) {
+                      setState(() {
+                        _showChart = value;
+                      });
+                    },
+                  )
+                ],
+              ),
             // Aqui será a alternancia entre o grafico e a lista
             if (_showChart || !isLandscape)
               // se o showChart for verdadeiro irá mostrar o container abaixo
@@ -180,10 +183,14 @@ class _DashboardState extends State<Dashboard> {
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.add),
-        onPressed: () => _openTransactionFormModal(context),
-      ),
+      // aqui estou verificando qual é a plataforma que o app está instalado
+      // se for ios o botao flutuante nao sera mostrado devido ao padrao da plataforma
+      floatingActionButton: Platform.isIOS
+          ? Container()
+          : FloatingActionButton(
+              child: Icon(Icons.add),
+              onPressed: () => _openTransactionFormModal(context),
+            ),
     );
   }
 }
