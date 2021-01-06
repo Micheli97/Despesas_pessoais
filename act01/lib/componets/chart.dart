@@ -46,11 +46,10 @@ class Chart extends StatelessWidget {
 
         'value': totalSum,
       };
-      
     }).reversed.toList();
     // aqui eu estou invertendo os valores e dias da semana para que o dia mais atual fique na parte
     // da direita, por isso o uso do reversed
-    // o reversed retorna um interavel e como eu preciso de uma lista entao converto para uma lista usando o 
+    // o reversed retorna um interavel e como eu preciso de uma lista entao converto para uma lista usando o
     // toList
   }
 
@@ -67,7 +66,7 @@ class Chart extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       elevation: 6,
-      margin: EdgeInsets.all(10),
+      margin: EdgeInsets.all(20),
       child: Padding(
         padding: EdgeInsets.all(10),
         child: Row(
@@ -81,7 +80,9 @@ class Chart extends StatelessWidget {
               child: ChartBar(
                 label: tr['day'],
                 value: tr['value'],
-                percentage: _weekTotalValue == 0 ? 0 : (tr['value'] as double) / _weekTotalValue,
+                percentage: _weekTotalValue == 0
+                    ? 0
+                    : (tr['value'] as double) / _weekTotalValue,
                 // essa verificacao e necessaria para que quando a lista for vazia nao ocorra um erro de divisao por 0
                 // na funcao de logica para add novas transacoes
               ),

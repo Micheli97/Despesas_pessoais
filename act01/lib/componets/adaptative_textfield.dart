@@ -25,7 +25,7 @@ class AdaptativeTextfield extends StatelessWidget {
             child: CupertinoTextField(
               controller: controller,
               keyboardType: keyboardType,
-              onChanged: onsubmitted,
+              onSubmitted: onsubmitted,
               placeholder: label,
               padding: EdgeInsets.symmetric(
                 horizontal: 6,
@@ -36,7 +36,7 @@ class AdaptativeTextfield extends StatelessWidget {
         : TextField(
             controller: controller,
             keyboardType: keyboardType,
-            onChanged: onsubmitted,
+            onSubmitted: onsubmitted,
             decoration: InputDecoration(
               labelText: label,
             ),

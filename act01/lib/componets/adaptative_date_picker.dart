@@ -13,12 +13,11 @@ class AdaptativeDatePicker extends StatelessWidget {
   });
 
   _showDatePicker(BuildContext context) {
-    // este modal ira retornar o DatePicker com o calendario
     showDatePicker(
       context: context,
-      initialDate: DateTime.now(), // data inicial mostrando a data atual
-      firstDate: DateTime(2020), // inicio de quando o caledario ira contar
-      lastDate: DateTime.now(), // ultima data, no caso, a atual
+      initialDate: DateTime.now(),
+      firstDate: DateTime(2020),
+      lastDate: DateTime.now(),
     ).then((pickedDate) {
       if (pickedDate == null) {
         return;

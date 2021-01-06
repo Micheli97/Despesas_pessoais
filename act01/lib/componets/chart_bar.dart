@@ -30,39 +30,37 @@ class ChartBar extends StatelessWidget {
               height: constraints.maxHeight * 0.6,
               width: 10,
               child: Stack(
-                  // esse widget sobrepoe elementos
-                  alignment: Alignment.bottomCenter,
-                  // se nao usar o alinhamento o FractionallySizedBox fica orientado de cima para baixo
-                  // o alignment corrige essa orientação
-                  children: <Widget>[
-                    Container(
+                alignment: Alignment.bottomCenter,
+                children: <Widget>[
+                  Container(
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                        color: Colors.grey,
+                        width: 1.0,
+                      ),
+                      color: Color.fromRGBO(220, 220, 220, 1),
+                      borderRadius: BorderRadius.circular(5),
+                    ),
+                  ),
+                  FractionallySizedBox(
+                    heightFactor: percentage,
+                    child: Container(
                       decoration: BoxDecoration(
-                        border: Border.all(color: Colors.grey, width: 1.0),
-                        color: Color.fromRGBO(220, 220, 220, 1),
+                        color: Theme.of(context).primaryColor,
                         borderRadius: BorderRadius.circular(5),
                       ),
                     ),
-                    FractionallySizedBox(
-                      // sizedbox fracionado
-                      heightFactor: percentage,
-                      // o valor da altura sera o valor da porcentagem
-                      child: Container(
-                        decoration: BoxDecoration(
-                          color: Theme.of(context).primaryColor,
-                          borderRadius: BorderRadius.circular(5),
-                        ),
-                      ),
-                    )
-                  ]),
+                  )
+                ],
+              ),
             ),
             SizedBox(height: constraints.maxHeight * 0.05),
             Container(
               height: constraints.maxHeight * 0.15,
               child: FittedBox(
-                // o fittedbox foi usado para garantir o tamanho do texto
                 child: Text(label),
               ),
-            )
+            ),
           ],
         );
       },

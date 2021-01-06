@@ -64,7 +64,9 @@ class _TransactionFormState extends State<TransactionForm> {
               AdaptativeDatePicker(
                 selectedDate: _selectedDate,
                 onDateChanged: (newDate) {
-                  _selectedDate = newDate;
+                  setState(() {
+                    _selectedDate = newDate;
+                  });
                 },
               ),
               Row(
@@ -72,7 +74,7 @@ class _TransactionFormState extends State<TransactionForm> {
                 children: <Widget>[
                   AdaptativeButton(
                     label: "Nova transação",
-                    onPressed: _submitForm(),
+                    onPressed: _submitForm,
                   ),
                 ],
               )

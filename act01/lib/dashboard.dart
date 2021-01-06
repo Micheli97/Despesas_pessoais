@@ -16,48 +16,48 @@ class Dashboard extends StatefulWidget {
 
 class _DashboardState extends State<Dashboard> {
   final List<Transaction> _transactions = [
-    Transaction(
-      id: "t1",
-      title: 'Netflix',
-      value: 32.90,
-      date: DateTime.now().subtract(Duration(days: 4)),
-    ),
-    Transaction(
-      id: "t2",
-      title: 'Amazon',
-      value: 10.00,
-      date: DateTime.now().subtract(Duration(days: 2)),
-    ),
-    Transaction(
-      id: "t3",
-      title: 'Cash lol',
-      value: 54.00,
-      date: DateTime.now().subtract(Duration(days: 3)),
-    ),
-    Transaction(
-      id: "t4",
-      title: 'Internet',
-      value: 100.00,
-      date: DateTime.now().subtract(Duration(days: 1)),
-    ),
-    Transaction(
-      id: "t7",
-      title: 'pastel',
-      value: 30.00,
-      date: DateTime.now().subtract(Duration(days: 1)),
-    ),
-    Transaction(
-      id: "t5",
-      title: 'Conta de luz',
-      value: 150.00,
-      date: DateTime.now().subtract(Duration(days: 3)),
-    ),
-    Transaction(
-      id: "t5",
-      title: 'Lanche',
-      value: 50.00,
-      date: DateTime.now().subtract(Duration(days: 2)),
-    ),
+    // Transaction(
+    //   id: "t1",
+    //   title: 'Netflix',
+    //   value: 32.90,
+    //   date: DateTime.now().subtract(Duration(days: 4)),
+    // ),
+    // Transaction(
+    //   id: "t2",
+    //   title: 'Amazon',
+    //   value: 10.00,
+    //   date: DateTime.now().subtract(Duration(days: 2)),
+    // ),
+    // Transaction(
+    //   id: "t3",
+    //   title: 'Cash lol',
+    //   value: 54.00,
+    //   date: DateTime.now().subtract(Duration(days: 3)),
+    // ),
+    // Transaction(
+    //   id: "t4",
+    //   title: 'Internet',
+    //   value: 100.00,
+    //   date: DateTime.now().subtract(Duration(days: 1)),
+    // ),
+    // Transaction(
+    //   id: "t7",
+    //   title: 'pastel',
+    //   value: 30.00,
+    //   date: DateTime.now().subtract(Duration(days: 1)),
+    // ),
+    // Transaction(
+    //   id: "t5",
+    //   title: 'Conta de luz',
+    //   value: 150.00,
+    //   date: DateTime.now().subtract(Duration(days: 3)),
+    // ),
+    // Transaction(
+    //   id: "t5",
+    //   title: 'Lanche',
+    //   value: 50.00,
+    //   date: DateTime.now().subtract(Duration(days: 2)),
+    // ),
   ];
 
   bool _showChart = false;
@@ -107,14 +107,8 @@ class _DashboardState extends State<Dashboard> {
 
   Widget _getIconButton(IconData icon, Function fn) {
     return Platform.isIOS
-        ? GestureDetector(
-            onTap: fn,
-            child: Icon(icon),
-          )
-        : IconButton(
-            icon: Icon(icon),
-            onPressed: fn,
-          );
+        ? GestureDetector(onTap: fn, child: Icon(icon))
+        : IconButton(icon: Icon(icon), onPressed: fn);
   }
 
   @override
@@ -124,14 +118,18 @@ class _DashboardState extends State<Dashboard> {
 
     final iconList = Platform.isIOS ? CupertinoIcons.refresh : Icons.list;
     final chartList = Platform.isIOS ? CupertinoIcons.refresh : Icons.pie_chart;
+
     final actions = [
       if (isLandscape)
         // se ele verificar que a tela está na horizontal irá mostrar os elementos abaixo
-        _getIconButton(_showChart ? iconList : chartList, () {
-          setState(() {
-            _showChart = !_showChart;
-          });
-        }),
+        _getIconButton(
+          _showChart ? iconList : chartList,
+          () {
+            setState(() {
+              _showChart = !_showChart;
+            });
+          },
+        ),
       _getIconButton(
         Platform.isIOS ? CupertinoIcons.add : Icons.add,
         // aqui estou verificando qual é a plataforma para que o widget seja aplicado
@@ -163,58 +161,51 @@ class _DashboardState extends State<Dashboard> {
     // nesse calculo eu estou subtraindo do tamanho disponivel a altura da appBar e da barra de status top
 
     final bodyPage = SafeArea(
-        child: SingleChildScrollView(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: <Widget>[
-          if (isLandscape)
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text('Exibir Gráfico'),
-                Switch.adaptive(
-                  // aqui ele vai verificar a plataforma e adpatar o componente para os padroes da mesma
-                  activeColor: Theme.of(context).accentColor,
-                  value: _showChart,
-                  onChanged: (value) {
-                    setState(() {
-                      _showChart = value;
-                    });
-                  },
-                )
-              ],
-            ),
-          // Aqui será a alternancia entre o grafico e a lista
-          if (_showChart || !isLandscape)
-            // se o showChart for verdadeiro irá mostrar o container abaixo
-            Container(
-              height: availableHeight *
-                  (isLandscape
-                      ? 0.7
-                      : 0.3), // se ele estiver em modo retrato irá mostrar
-              // a altura do gráfico multiplicado por 0.7 se não mostrará multiplicado por 0.3
-              child: Chart(_recentTransactions),
-            )
-          // se a verificação acima nao for verdade ele ira retornar esse container
-          // aqui eu apliquei um container nesse widget para poder aplicar o responsivo na altura dele
-          else if (!_showChart || !isLandscape)
-            Container(
-              height: availableHeight * (isLandscape ? 1 : 0.7),
-              child: TransactionList(_transactions, _removeTransaction),
-            ),
-        ],
+      child: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: <Widget>[
+            // if (isLandscape)
+            //   Row(
+            //     mainAxisAlignment: MainAxisAlignment.center,
+            //     children: [
+            //       Text('Exibir Gráfico'),
+            //       Switch.adaptive(
+            //         // aqui ele vai verificar a plataforma e adpatar o componente para os padroes da mesma
+            //         activeColor: Theme.of(context).accentColor,
+            //         value: _showChart,
+            //         onChanged: (value) {
+            //           setState(() {
+            //             _showChart = value;
+            //           });
+            //         },
+            //       )
+            //     ],
+            //   ),
+            // Aqui será a alternancia entre o grafico e a lista
+            if (_showChart || !isLandscape)
+              Container(
+                height: availableHeight * (isLandscape ? 0.8 : 0.3),
+                child: Chart(_recentTransactions),
+              ),
+            if (!_showChart || !isLandscape)
+              Container(
+                height: availableHeight * (isLandscape ? 1 : 0.7),
+                child: TransactionList(_transactions, _removeTransaction),
+              ),
+          ],
+        ),
       ),
-    ));
+    );
 
     return Platform.isIOS
         ? CupertinoPageScaffold(
+            navigationBar: appBar,
             child: bodyPage,
           )
         : Scaffold(
             appBar: appBar,
             body: bodyPage,
-            // aqui estou verificando qual é a plataforma que o app está instalado
-            // se for ios o botao flutuante nao sera mostrado devido ao padrao da plataforma
             floatingActionButton: Platform.isIOS
                 ? Container()
                 : FloatingActionButton(
