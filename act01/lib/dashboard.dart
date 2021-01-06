@@ -7,6 +7,8 @@ import 'package:flutter/material.dart';
 import 'componets/transaction_list.dart';
 import 'models/transactions.dart';
 
+// safeare diz qual dimensao segura na tela para colocar os elementos
+// ela desconsidera espaços da tela que nao devem conter elementos
 class Dashboard extends StatefulWidget {
   @override
   _DashboardState createState() => _DashboardState();
@@ -120,10 +122,12 @@ class _DashboardState extends State<Dashboard> {
     final mediaQuery = MediaQuery.of(context);
     bool isLandscape = mediaQuery.orientation == Orientation.landscape;
 
+    final iconList = Platform.isIOS ? CupertinoIcons.refresh : Icons.list;
+    final chartList = Platform.isIOS ? CupertinoIcons.refresh : Icons.pie_chart;
     final actions = [
       if (isLandscape)
         // se ele verificar que a tela está na horizontal irá mostrar os elementos abaixo
-        _getIconButton(_showChart ? Icons.list : Icons.pie_chart, () {
+        _getIconButton(_showChart ? Icons.list : chartList, () {
           setState(() {
             _showChart = !_showChart;
           });
@@ -158,7 +162,8 @@ class _DashboardState extends State<Dashboard> {
     // aqui eu estou calculando a altura da aplcação para aplicar o responsivo nos widgets da aplicação
     // nesse calculo eu estou subtraindo do tamanho disponivel a altura da appBar e da barra de status top
 
-    final bodyPage = SingleChildScrollView(
+    final bodyPage = SafeArea(
+        child: SingleChildScrollView(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
@@ -199,7 +204,7 @@ class _DashboardState extends State<Dashboard> {
             ),
         ],
       ),
-    );
+    ));
 
     return Platform.isIOS
         ? CupertinoPageScaffold(
