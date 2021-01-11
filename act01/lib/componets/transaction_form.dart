@@ -23,6 +23,37 @@ class _TransactionFormState extends State<TransactionForm> {
       DateTime.now(); // aqui ele esta pegando o valor da data atual
   //DateTime _selectedDate; // ira armazenar o valor da data selecionado
 
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  // Chamdo apenas 1 vez, na criação no widgte. Quando o widgete é inserido na widget tree
+
+  //BUILD -  Chamado em diferentes situaçãoes. Sempre quue o widget prercisar ser reconstruído
+  // após o initState() ou após a função setState() e até mesmo quando o widget for removido
+  // da widget tree para ser inserido em outro ponto.
+
+  // setState - Responsável por notificar nosso widgete que o estado interno foi alterado.
+  // Por exemplpo, ao concluir uma requisição HTTP, querermos exibir estas informações na tela
+  // Por isso, preechemos nossa tela com as informações recebidas e invocamos a função
+  // setState()
+
+  @override
+  void didUpdateWidget(Widget oldWidget) {
+    super.didUpdateWidget(oldWidget);
+  }
+  // Semprer que o seu widget sofrer alterações, este método é chamado e executado
+  // antes do build(). Ou seja, sempre que chamar o setState(), este método é executado
+  // Pode ser útil ao lidar com animações e/ou quando precisar ter acesso ao estado
+  // antigo do widget
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
+  // chamado quando o widget for removido da widget tree permanentemente
+
   _submitForm() {
     final title = _titleController.text;
     final value = double.tryParse(_valueController.text) ?? 0.0;
