@@ -14,51 +14,19 @@ class Dashboard extends StatefulWidget {
   _DashboardState createState() => _DashboardState();
 }
 
-class _DashboardState extends State<Dashboard> {
-  final List<Transaction> _transactions = [
-    // Transaction(
-    //   id: "t1",
-    //   title: 'Netflix',
-    //   value: 32.90,
-    //   date: DateTime.now().subtract(Duration(days: 4)),
-    // ),
-    // Transaction(
-    //   id: "t2",
-    //   title: 'Amazon',
-    //   value: 10.00,
-    //   date: DateTime.now().subtract(Duration(days: 2)),
-    // ),
-    // Transaction(
-    //   id: "t3",
-    //   title: 'Cash lol',
-    //   value: 54.00,
-    //   date: DateTime.now().subtract(Duration(days: 3)),
-    // ),
-    // Transaction(
-    //   id: "t4",
-    //   title: 'Internet',
-    //   value: 100.00,
-    //   date: DateTime.now().subtract(Duration(days: 1)),
-    // ),
-    // Transaction(
-    //   id: "t7",
-    //   title: 'pastel',
-    //   value: 30.00,
-    //   date: DateTime.now().subtract(Duration(days: 1)),
-    // ),
-    // Transaction(
-    //   id: "t5",
-    //   title: 'Conta de luz',
-    //   value: 150.00,
-    //   date: DateTime.now().subtract(Duration(days: 3)),
-    // ),
-    // Transaction(
-    //   id: "t5",
-    //   title: 'Lanche',
-    //   value: 50.00,
-    //   date: DateTime.now().subtract(Duration(days: 2)),
-    // ),
-  ];
+class _DashboardState extends State<Dashboard> with WidgetsBindingObserver {
+  // widgetBindingObserver verifica se está havendo modificaçõe no estado da aplicação
+
+  final List<Transaction> _transactions = [];
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addObserver(this);
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {}
 
   bool _showChart = false;
   // variavel de controle que irá receber um valor booleano para
