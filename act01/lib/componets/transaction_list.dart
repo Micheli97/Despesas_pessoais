@@ -41,11 +41,22 @@ class TransactionList extends StatelessWidget {
               final tr = transactions[index];
               // a informação será um tr que ira pegar os valores da lista transactions na posição index
               return TransactionItem(
+                key: GlobalObjectKey(tr),
+                // aqui eu to pegando o valor do indice passado na variavel tr
                 tr: tr,
                 onRemove: onRemove,
               );
             },
           );
+    // ListView(
+    //   children: transactions.map((tr) {
+    //     return TransactionItem(
+    //       key: ValueKey(tr.id),
+    //       tr: tr,
+    //       onRemove: onRemove,
+    //     );
+    //   }).toList(),
+    // );
   }
 }
 

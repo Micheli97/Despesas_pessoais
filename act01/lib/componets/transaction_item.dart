@@ -11,6 +11,9 @@ class TransactionItem extends StatefulWidget {
     @required this.onRemove,
   }) : super(key: key);
 
+  // o super está passando o atributo key para que ele seja acessaddo como atributo
+  // da classe pai
+
   final Transaction tr;
   final void Function(String p1) onRemove;
 
